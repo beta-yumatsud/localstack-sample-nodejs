@@ -1,0 +1,34 @@
+version: '3'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - 3000:3000
+    links:
+      - localstack
+  localstack:
+    image: atlassianlabs/localstack
+    ports:
+      - 4567-4578:4567-4578
+      - 8080:8080
+    volumes:
+      - "/tmp/localstack:/tmp/localstack"
+
+# 必要であれば下記にMySQL, redis, Nginxなどの設定をする
+
+# localstack/localstackが自分のlocalで動かなかったので一旦古いほうにする
+# 上記の場合、対象の全てのサービスが起動してしまうので、必要な範囲に絞る場合は、portsとSERVICESを指定する
+# default regionは us-east-1 なので、ここも必要に応じて設定するとよき
+# https://github.com/localstack/localstack
+
+#  localstack:
+#    image: localstack/localstack
+#    ports:
+#      - "4567-4586:4567-4586"
+#      - "8080:8080"
+#    environment:
+#      - SERVICES=sqs,sns,s3
+#      - DEFAULT_REGION=ap-northeast-1
