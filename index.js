@@ -14,6 +14,17 @@ app.get('/v1/todo', (req, res) => {
     console.log(todo.countOptionals(todoList));
     res.json(todoList)
 });
+app.get('/v1/todo/:id', (req, res) => {
+    const todoList = [
+        {title: "Create Node.js sample application", optional: false},
+        {title: "Create test code Node.js sample", optional: true},
+        {title: "Create Docker container with Node.js", optional: false},
+        {title: "Create docker-compose with localStack", optional: false}
+    ];
+	const todoItem = {id: req.params.id, title: "Create Node.js sample application", optional: false};
+    console.log(todoItem);
+    res.json(todoItem)
+});
 
 // AWS S3
 // TODO endpointのhost名は環境によって使い分ける必要あり
