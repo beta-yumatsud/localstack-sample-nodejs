@@ -5,10 +5,10 @@ const app = express();
 
 // Sample Data
 const todoList = [
-    {id: 1, title: "Create Node.js sample application", optional: false},
-    {id: 2, title: "Create test code Node.js sample", optional: true},
-    {id: 3, title: "Create Docker container with Node.js", optional: false},
-    {id: 4, title: "Create docker-compose with localStack", optional: false}
+    {id: 1, title: "Create Node.js sample application", description: "hogehoge", optional: false},
+    {id: 2, title: "Create test code Node.js sample", description: "hogehoge", optional: true},
+    {id: 3, title: "Create Docker container with Node.js", description: "hogehoge", optional: false},
+    {id: 4, title: "Create docker-compose with localStack", description: "hogehoge", optional: false}
 ];
 // API的なやつ
 app.get('/v1/todo', (req, res) => {
