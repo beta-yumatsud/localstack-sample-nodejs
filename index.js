@@ -3,25 +3,29 @@ const AWS = require('aws-sdk');
 const todo = require('./libs/todo');
 const app = express();
 
+// Sample Data
+const todoList = [
+    {id: 1, title: "Create Node.js sample application", optional: false},
+    {id: 2, title: "Create test code Node.js sample", optional: true},
+    {id: 3, title: "Create Docker container with Node.js", optional: false},
+    {id: 4, title: "Create docker-compose with localStack", optional: false}
+];
 // API的なやつ
 app.get('/v1/todo', (req, res) => {
-    const todoList = [
-        {title: "Create Node.js sample application", optional: false},
-        {title: "Create test code Node.js sample", optional: true},
-        {title: "Create Docker container with Node.js", optional: false},
-        {title: "Create docker-compose with localStack", optional: false}
-    ];
     console.log(todo.countOptionals(todoList));
     res.json(todoList)
 });
 app.get('/v1/todo/:id', (req, res) => {
-    const todoList = [
-        {title: "Create Node.js sample application", optional: false},
-        {title: "Create test code Node.js sample", optional: true},
-        {title: "Create Docker container with Node.js", optional: false},
-        {title: "Create docker-compose with localStack", optional: false}
-    ];
-	const todoItem = {id: req.params.id, title: "Create Node.js sample application", optional: false};
+	const id = req.params.id;
+	if (id === undefined || isNaN(id)) {
+		res.status(400).json({ error: 'param is invalid. id is '+id });
+		return
+	}
+	const todoItem = todoList.filter(item => item.id == id).shift();
+	if (todoItem === undefined) {
+		res.status(404).json({ error: 'not found todo item. id is '+id });
+		return
+	}
     console.log(todoItem);
     res.json(todoItem)
 });
