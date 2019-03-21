@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region ap-northeast-1)
+  build:
+    commands:
+      - echo Build started on `date`
+      - docker build --no-cache -t api:$IMAGE_TAG .
+      - docker tag api:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/api:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/api:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"api","imageUri":"%s"}]' $ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/api:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
+
