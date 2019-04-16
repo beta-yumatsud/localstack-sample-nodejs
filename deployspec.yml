@@ -1,6 +1,9 @@
 version: 0.2
 
 phases:
+  pre_build:
+    commands:
+      - IMAGE_TAG=$(git describe --tags --abbrev=0)
   build:
     commands:
       - echo production deploy start.
